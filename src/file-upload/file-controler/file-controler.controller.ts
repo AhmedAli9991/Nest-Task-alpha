@@ -17,7 +17,7 @@ export class FileControlerController {
     // }
 
   @Post('upload')
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file', multerOptions))
   async uploadFile(@UploadedFile() file,@Body() User ) {
     
