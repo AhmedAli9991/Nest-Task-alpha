@@ -1,18 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import {DbServiceService} from '../../common-services/db-service/db-service.service'
+import {JwtServiceService} from '../../common-services/jwt-service/jwt-service.service'
+
 import { User, Prisma } from '@prisma/client';
 
-
-interface user {
-    email : string,
-    password : string,
-    name : string
-
-}
-
 @Injectable()
-export class CrudServiceService {
-    constructor(private prisma: DbServiceService){
+export class UserServiceService {
+    constructor(private prisma: DbServiceService, private jwt :JwtServiceService){
 
     }
     async getCrud(){
@@ -51,6 +45,21 @@ export class CrudServiceService {
         }
     }
     
+
+    async Login(data: any){
+        try{
+        const userTologin = await this.prisma.user.findFirst(
+            {where: { email: String(data.email),  password: String(data.password) }})
+            const jwt = await this.jwt.signIn(userTologin)            
+           return jwt
+        } 
+        catch(err){
+            return err
+        }
+    }
+    
+
+
     async deleteOne(id:number){
         try{
         const userList = await this.prisma.user.delete(

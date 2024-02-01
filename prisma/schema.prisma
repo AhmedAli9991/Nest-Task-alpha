@@ -16,3 +16,19 @@ model User {
   name  String
   password String
 }
+
+model Product {
+  id    Int     @default(autoincrement()) @id
+  identifier String
+  name String  
+  total_weight  String
+  verified_weight String
+  verified_weight_percentage String
+}
+ 
+ model File {
+  id    Int     @default(autoincrement()) @id
+  name String  
+  description String
+}
+ 
